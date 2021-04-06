@@ -12,6 +12,8 @@ provider:
     stage: ${opt:stage, 'dev'}
     region: eu-west-1
     environment: ${file(.env.yml):}
+    iamRoleStatements:
+                - ${file(iam/send-mail-iam.yml):SendMailIAM}
 
 functions:
     google:
@@ -34,4 +36,12 @@ functions:
             - http:
                   method: POST
                   path: /weather
+                  cors: true
+
+    sendMessage:
+        handler: src/handlers/send-message.handler
+        events:
+            - http:
+                  method: POST
+                  path: /message
                   cors: true
