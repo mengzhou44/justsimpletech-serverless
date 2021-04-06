@@ -6,22 +6,22 @@ const ses = new AWS.SES({ region: "eu-west-1" });
 
 async function sendMessage(event, context) {
     try {
-        const { name, email, message } = event.body;
+        const { contactName,  contactEmail, contactMessage } = event.body;
         const systemEmail = process.env.SYSTEM_EMAIL;
 
         const params = {
-            Source: email,
+            Source: contactEmail,
             Destination: {
                 ToAddresses: [systemEmail]
             },
             Message: {
                 Body: {
                     Text: {
-                        Data: message
+                        Data: contactMessage
                     }
                 },
                 Subject: {
-                    Data: `Message from ${name}`
+                    Data: `Message from ${contactName}`
                 }
             }
         };

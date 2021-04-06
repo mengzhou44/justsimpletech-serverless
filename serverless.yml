@@ -16,13 +16,6 @@ provider:
                 - ${file(iam/send-mail-iam.yml):SendMailIAM}
 
 functions:
-    google:
-        handler: src/handlers/google.handler
-        events:
-            - http:
-                  method: GET
-                  path: /google
-                  cors: true
     feed:
         handler: src/handlers/feed.handler
         events:
