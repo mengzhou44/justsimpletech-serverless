@@ -10,7 +10,7 @@ async function getFeeds(event, context) {
     };
     try {
         const result = await dynamodb.scan(params).promise();
-       
+        
         return {
             statusCode: 201,
             body: JSON.stringify({ feeds: result.Items })
