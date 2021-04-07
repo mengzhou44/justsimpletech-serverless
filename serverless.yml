@@ -13,7 +13,12 @@ provider:
     region: eu-west-1
     environment: ${file(.env.yml):}
     iamRoleStatements:
-                - ${file(iam/send-mail-iam.yml):SendMailIAM}
+        - ${file(iam/send-mail-iam.yml):SendMailIAM}
+        - ${file(iam/feeds-table-iam.yml):FeedsTableIAM}
+
+resources:
+    Resources:
+        FeedsTable: ${file(resources/feeds-table.yml):FeedsTable}
 
 functions:
     feed:
@@ -38,3 +43,23 @@ functions:
                   method: POST
                   path: /message
                   cors: true
+    getFeeds:
+        handler: src/handlers/get-feeds.handler
+        events:
+            - http:
+                  method: GET
+                  path: /feeds
+                  cors: true
+    # uploadFeeds:
+    #     handler: src/handlers/upload-feeds.handler
+    #     events:
+    #         - http:
+    #               method: POST
+    #               path: /feeds/upload
+    #               cors: true
+custom:
+    FeedsTable:
+        name: !Ref FeedsTable
+        arn: !GetAtt FeedsTable.Arn
+    bundle:
+        linting: false

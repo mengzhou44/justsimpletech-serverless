@@ -1,0 +1,11 @@
+FeedsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+        TableName: FeedsTable-${self:provider.stage}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+            - AttributeName: url
+              AttributeType: S
+        KeySchema:
+            - AttributeName: url
+              KeyType: HASH
